@@ -5,12 +5,10 @@ body{
 .formulaire{
     max-width: 500px;
     padding: 20px;
-    border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #ffffff;
     margin-left: 400px;
     margin-top: 100px; 
-    box-shadow: 10px 10px 10px 10px #bcbbbb;
 }
 
 h4{
@@ -25,8 +23,6 @@ h4{
     height: 35px;
     margin-left: 300px;
     border-radius: 3px;
-    box-shadow: 1px 1px 1px 1px #bcbbbb;
-    margin-top: -100px;
 }
 a{
     color: rgb(0, 0, 0);
@@ -34,8 +30,7 @@ a{
 
 input{
     height: 30px;
-    border: none;
-    box-shadow: 1px 1px 1px 1px #bcbbbb;
+    border: 1px black solid;
 }
 .test{
   display: flex;
@@ -47,12 +42,10 @@ input{
 #tel{
     width: 440px;
     height: 30px;
-    border: none;
-    box-shadow: 1px 1px 1px 1px #bcbbbb;
+    border: 1px black solid;
 }
 #email{
     width: 440px;
     height: 30px;
-    border: none;
-    box-shadow: 1px 1px 1px 1px #bcbbbb;
+    border: 1px black solid;
 }
