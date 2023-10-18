@@ -19,7 +19,7 @@ if (isset($_POST['valider'])) {
     $sele->bindParam(':email', $email);
     $sele->execute();
 
-    $resultat = $sele->fetch(PDO::FETCH_ASSOC);
+    @$resultat = $sele->fetch(PDO::FETCH_ASSOC);
 
     if ($resultat['email'] === $email) {
         echo "Il existe";
