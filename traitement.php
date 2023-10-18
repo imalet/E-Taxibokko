@@ -27,8 +27,12 @@ if (isset($_POST['valider'])) {
 
         $resultat = $sele->fetch(PDO::FETCH_ASSOC);
 
-        if (@$resultat['email'] === $email) {
-            echo "Il existe";
+        if (!preg_match("/^(77|78|76)[0-9]{7}/", $numero)) {
+            echo "Bad numero";
+        } elseif (!preg_match("/^[a-zA-Z]+$/", $nom)) {
+            echo "Le champ 'nom' ne doit contenir que des lettres.";
+        } elseif (!preg_match("/^[a-zA-Z]+$/", $prenom)) {
+            echo "Le champ 'prenom' ne doit contenir que des lettres.";
         } else {
             $req = $db->prepare('INSERT INTO utilisateurs(nom, prenom, motdepass, numero, email) VALUES(:nom, :prenom, :motdepass, :numero, :email)');
             $req->bindParam(':nom', $nom);
