@@ -11,29 +11,37 @@ try {
 if (isset($_POST['valider'])) {
 
     $nom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
-    $prenom = $_POST['prenom'];
+    $prenom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
     $mdp = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
-    $sele = $db->prepare("SELECT * FROM users WHERE email = :email");
-    $sele->bindParam(':email', $email);
-    $sele->execute();
+    @$numero = $_POST['numero'];
 
-    @$resultat = $sele->fetch(PDO::FETCH_ASSOC);
-
-    if ($resultat['email'] === $email) {
-        echo "Il existe";
+    if (!preg_match("/^(77|78|76)[0-9]{7}/", $numero)) {
+        echo "Bad numero";
     } else {
-        $req = $db->prepare('INSERT INTO users(nom, prenom, motdepasse, email) VALUES(:nom, :prenom, :motdepasse, :email)');
-        $req->bindParam(':nom', $nom);
-        $req->bindParam(':prenom', $prenom);
-        $req->bindParam(':motdepasse', $mdp);
-        $req->bindParam(':email', $email);
 
-        if ($req->execute()) {
-            echo "Insertion reussi";
+        $sele = $db->prepare("SELECT * FROM utilisateurs WHERE email = :email");
+        $sele->bindParam(':email', $email);
+        $sele->execute();
+
+        $resultat = $sele->fetch(PDO::FETCH_ASSOC);
+
+        if (@$resultat['email'] === $email) {
+            echo "Il existe";
         } else {
-            echo "Insertion Echoué";
+            $req = $db->prepare('INSERT INTO utilisateurs(nom, prenom, motdepass, numero, email) VALUES(:nom, :prenom, :motdepass, :numero, :email)');
+            $req->bindParam(':nom', $nom);
+            $req->bindParam(':prenom', $prenom);
+            $req->bindParam(':motdepass', $mdp);
+            $req->bindParam(':numero', $numero);
+            $req->bindParam(':email', $email);
+
+            if ($req->execute()) {
+                echo "Insertion reussi";
+            } else {
+                echo "Insertion Echoué";
+            }
         }
     }
 }
