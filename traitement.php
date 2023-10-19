@@ -1,6 +1,5 @@
 <?php
 
-
 try {
     $db = new PDO('mysql:host=localhost;dbname=taxibokko', 'root', '');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -13,7 +12,7 @@ if (isset($_POST['valider'])) {
     $nom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
     $prenom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
     $mdp = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $email = $_POST['email'];
 
     @$numero = $_POST['numero'];
 
@@ -33,6 +32,8 @@ if (isset($_POST['valider'])) {
             echo "Le champ 'nom' ne doit contenir que des lettres.";
         } elseif (!preg_match("/^[a-zA-Z]+$/", $prenom)) {
             echo "Le champ 'prenom' ne doit contenir que des lettres.";
+        } elseif (!preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/', $email)) {
+            echo "Bad email";
         } else {
             $req = $db->prepare('INSERT INTO utilisateurs(nom, prenom, motdepass, numero, email) VALUES(:nom, :prenom, :motdepass, :numero, :email)');
             $req->bindParam(':nom', $nom);
