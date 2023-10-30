@@ -1,52 +1,126 @@
 <?php
+require_once("db.php");
+require_once("Auth.php");
 
-try {
-    $db = new PDO('mysql:host=localhost;dbname=taxibokko', 'root', '');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    throw $e;
-}
+$database = new Database();
+$database->connect();
+
+$auth = new Auth($database);
 
 if (isset($_POST['valider'])) {
 
-    $nom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
-    $prenom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
-    $mdp = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $nom = htmlspecialchars($_POST['prenom']);
+    $prenom = htmlspecialchars($_POST['prenom']);
+    $mdp = $_POST['password'];
     $email = $_POST['email'];
-
     @$numero = $_POST['numero'];
 
-    if (!preg_match("/^(77|78|76)[0-9]{7}/", $numero)) {
-        echo "Bad numero";
+    $auth->registerUser($nom, $prenom, $mdp, $numero, $email);
+}
+
+
+if (isset($_POST['inscrire'])) {
+    
+    $user = $auth->loginUser($_POST['email'], $_POST['password']);
+
+    if ($user) {
+        echo "Utilisateur authentifié avec succès" ;
     } else {
-
-        $sele = $db->prepare("SELECT * FROM utilisateurs WHERE email = :email");
-        $sele->bindParam(':email', $email);
-        $sele->execute();
-
-        $resultat = $sele->fetch(PDO::FETCH_ASSOC);
-
-        if (!preg_match("/^(77|78|76)[0-9]{7}/", $numero)) {
-            echo "Bad numero";
-        } elseif (!preg_match("/^[a-zA-Z]+$/", $nom)) {
-            echo "Le champ 'nom' ne doit contenir que des lettres.";
-        } elseif (!preg_match("/^[a-zA-Z]+$/", $prenom)) {
-            echo "Le champ 'prenom' ne doit contenir que des lettres.";
-        } elseif (!preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/', $email)) {
-            echo "Bad email";
-        } else {
-            $req = $db->prepare('INSERT INTO utilisateurs(nom, prenom, motdepass, numero, email) VALUES(:nom, :prenom, :motdepass, :numero, :email)');
-            $req->bindParam(':nom', $nom);
-            $req->bindParam(':prenom', $prenom);
-            $req->bindParam(':motdepass', $mdp);
-            $req->bindParam(':numero', $numero);
-            $req->bindParam(':email', $email);
-
-            if ($req->execute()) {
-                echo "Insertion reussi";
-            } else {
-                echo "Insertion Echoué";
-            }
-        }
+        echo "Authentification échouée";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+// Pour inscrire un utilisateur
+// $auth->registerUser('IMALET','IMALET','imalet',787878788,'imalet@gmail.com');
+
+// // Pour authentifier un utilisateur
+// $user = $auth->loginUser("imaletbenji58@gmail.com", "qwerty");
+// if ($user) {
+//     echo "Utilisateur authentifié avec succès, vous pouvez gérer la session ici";
+// } else {
+//     echo "Authentification échouée";
+// }
