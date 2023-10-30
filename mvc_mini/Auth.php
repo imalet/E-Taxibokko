@@ -11,7 +11,6 @@ class Auth
 
     public function registerUser($nom, $prenom, $motdepass, $numero, $email)
     {
-        // $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO utilisateurs (nom, prenom, motdepass, numero, email) VALUES (:nom, :prenom, :motdepass, :numero, :email)";
         $stmt = $this->db->getPDO()->prepare($sql);
@@ -20,7 +19,6 @@ class Auth
         $stmt->bindParam(":motdepass", $motdepass);
         $stmt->bindParam(":numero", $numero);
         $stmt->bindParam(":email", $email);
-        // $stmt->execute();
 
         if ($stmt->execute()) {
             echo "Ok c'est Bon";
@@ -40,7 +38,6 @@ class Auth
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($motdepass == $user["motdepass"]) {
-                // L'utilisateur est authentifié avec succès
                 return $user;
             }
         }
@@ -56,7 +53,7 @@ class Auth
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($result as $key ) {
+        foreach ($result as $key) {
             echo $key['nom'] . "\n";
             echo $key['prenom'] . "\n";
             echo $key['numero'] . "\n";

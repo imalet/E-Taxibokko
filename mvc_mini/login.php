@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <form action="" method="post" class="formulaire">
+    <form action="traitement.php" method="post" class="formulaire">
         <div>
-            <h1>Inscription</h1>
+            <h1>Login</h1>
             <h4>Votre chauffeur en un clic !</h4>
             <button type="submit" class="facebook">Continuer avec facebook</button>
         </div>

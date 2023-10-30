@@ -7,13 +7,6 @@ class Database {
     private $password = '';
     private $pdo;
 
-    // public function __construct($host, $dbname, $username, $password) {
-    //     $this->host = $host;
-    //     $this->dbname = $dbname;
-    //     $this->username = $username;
-    //     $this->password = $password;
-    // }
-
     public function connect() {
         try {
             $this->pdo = new PDO("mysql:host={$this->host};dbname={$this->dbname}", $this->username, $this->password);

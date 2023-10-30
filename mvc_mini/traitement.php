@@ -9,30 +9,108 @@ $auth = new Auth($database);
 
 if (isset($_POST['valider'])) {
 
-    $nom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
-    $prenom = htmlspecialchars($_POST['prenom'], ENT_QUOTES, 'UTF-8');
+    $nom = htmlspecialchars($_POST['prenom']);
+    $prenom = htmlspecialchars($_POST['prenom']);
     $mdp = $_POST['password'];
     $email = $_POST['email'];
-
     @$numero = $_POST['numero'];
 
-    if (!preg_match("/^(77|78|76)[0-9]{7}/", $numero)) {
-        echo "Bad numero";
-    } else {
+    $auth->registerUser($nom, $prenom, $mdp, $numero, $email);
+}
 
-        if (!preg_match("/^(77|78|76)[0-9]{7}/", $numero)) {
-            echo "Bad numero";
-        } elseif (!preg_match("/^[a-zA-Z]+$/", $nom)) {
-            echo "Le champ 'nom' ne doit contenir que des lettres.";
-        } elseif (!preg_match("/^[a-zA-Z]+$/", $prenom)) {
-            echo "Le champ 'prenom' ne doit contenir que des lettres.";
-        } elseif (!preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/', $email)) {
-            echo "Bad email";
-        } else {
-            $auth->registerUser($nom, $prenom, $mdp, $numero, $email);
-        }
+
+if (isset($_POST['inscrire'])) {
+    
+    $user = $auth->loginUser($_POST['email'], $_POST['password']);
+
+    if ($user) {
+        echo "Utilisateur authentifié avec succès" ;
+    } else {
+        echo "Authentification échouée";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
