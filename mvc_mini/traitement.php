@@ -33,6 +33,8 @@ if (isset($_POST['valider'])) {
         }
     }
 }
+
+
     
 // Pour inscrire un utilisateur
 // $auth->registerUser('IMALET','IMALET','imalet',787878788,'imalet@gmail.com');

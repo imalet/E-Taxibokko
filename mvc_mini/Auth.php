@@ -1,13 +1,16 @@
 <?php
 
-class Auth {
+class Auth
+{
     private $db;
 
-    public function __construct(Database $db) {
+    public function __construct(Database $db)
+    {
         $this->db = $db;
     }
 
-    public function registerUser($nom, $prenom, $motdepass, $numero, $email) {
+    public function registerUser($nom, $prenom, $motdepass, $numero, $email)
+    {
         // $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO utilisateurs (nom, prenom, motdepass, numero, email) VALUES (:nom, :prenom, :motdepass, :numero, :email)";
@@ -21,12 +24,13 @@ class Auth {
 
         if ($stmt->execute()) {
             echo "Ok c'est Bon";
-        }else {
+        } else {
             echo "okok";
         }
     }
 
-    public function loginUser($email, $motdepass) {
+    public function loginUser($email, $motdepass)
+    {
         $sql = "SELECT * FROM utilisateurs WHERE email = :email";
         $stmt = $this->db->getPDO()->prepare($sql);
         $stmt->bindParam(":email", $email);
@@ -42,5 +46,23 @@ class Auth {
         }
 
         return false; // Authentification échouée
+    }
+
+    public function select()
+    {
+        $sql = "SELECT * FROM utilisateurs";
+        $stmt = $this->db->getPDO()->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as $key ) {
+            echo $key['nom'] . "\n";
+            echo $key['prenom'] . "\n";
+            echo $key['numero'] . "\n";
+        }
+
+
+        // return false; // Authentification échouée
     }
 }
